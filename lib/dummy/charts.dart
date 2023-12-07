@@ -62,32 +62,39 @@ class Chart extends StatelessWidget {
               children: [
                 Container(
                   color: ColorConstants.white,
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child:const Row(
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(text: "-", style: TextStyles.electricity),
+                                      Text("Usage chart",style: TextStyles.heading,),
+                                      Spacer(),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text.rich(
                             TextSpan(
-                              text: "Electricity",
-                              style: TextStyles.normalText,
+                              children: [
+                                TextSpan(text: "-", style: TextStyles.electricity),
+                                TextSpan(
+                                  text: "Electricity",
+                                  style: TextStyles.normalText,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        textAlign: TextAlign.justify,
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(text: "-", style: TextStyles.water),
+                            textAlign: TextAlign.justify,
+                          ),
+                          Text.rich(
                             TextSpan(
-                              text: "Water",
-                              style: TextStyles.normalText,
+                              children: [
+                                TextSpan(text: "-", style: TextStyles.water),
+                                TextSpan(
+                                  text: "Water",
+                                  style: TextStyles.normalText,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        textAlign: TextAlign.justify,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ],
                       ),
                     ],
                   ),

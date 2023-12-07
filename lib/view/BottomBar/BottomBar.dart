@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:electricity/view/Home/home.dart';
+import 'package:electricity/view/profile/profilePage.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,7 +31,7 @@ class _BottomBarState extends State<BottomBar> {
 
   /// widget list
   final List<Widget> bottomBarPages = [
-    const Page1(),
+    ProfilePage(),
     HomePage(userName: "Sanjeev"),
     const Page3(),
   ];
@@ -47,6 +48,8 @@ class _BottomBarState extends State<BottomBar> {
       extendBody: true,
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
+            showBlurBottomBar: false,
+            showShadow: true,
               /// Provide NotchBottomBarController
               notchBottomBarController: _controller,
               color: Colors.white,
@@ -106,14 +109,6 @@ class _BottomBarState extends State<BottomBar> {
   }
 }
 
-class Page1 extends StatelessWidget {
-  const Page1({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(child: const Center(child: Text('Page 1')));
-  }
-}
 
 class Page3 extends StatelessWidget {
   const Page3({Key? key}) : super(key: key);

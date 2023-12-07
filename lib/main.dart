@@ -11,16 +11,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Eco Track',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
-      home: 
-//  BottomBar()
+        debugShowCheckedModeBanner: false,
+        title: 'Eco Track',
+        theme: ThemeData(
+          primarySwatch: Colors.teal,
+        ),
+        home: BottomBar()
 
-       LoginScreen(),
-    );
+        //  LoginScreen(),
+        );
   }
 }
-
