@@ -5,12 +5,17 @@ class UsageData {
   final double electricityKilowattUsed;
   final int waterConsumerNumber;
   final double waterAmountPaid;
+  final bool electricityStatus;
+  final bool waterStatus;
+
   final double waterLitersUsed;
 
   UsageData({
     required this.dateOfBillIssued,
+    required this.electricityStatus,
     required this.electricityConsumerNumber,
     required this.electricityAmountPaid,
+    required this.waterStatus,
     required this.electricityKilowattUsed,
     required this.waterConsumerNumber,
     required this.waterAmountPaid,
@@ -26,6 +31,8 @@ class UsageData {
       waterConsumerNumber: json['waterConsumerNumber'],
       waterAmountPaid: json['waterAmountPaid'].toDouble(),
       waterLitersUsed: json['waterLitersUsed'].toDouble(),
+      electricityStatus: json["electricityStatus"],
+      waterStatus: json["waterStatus"],
     );
   }
 }

@@ -4,7 +4,7 @@ import 'package:electricity/models/usageDataModel.dart';
 import 'package:http/http.dart' as http;
 
 class UsageDataService {
-  static const String apiUrl = 'https://endpoint/data';
+  static const String apiUrl = 'https://localhost:5000/data';
 
   Future<List<UsageData>> fetchUsageData({bool useApi = true}) async {
     if (useApi) {
@@ -25,7 +25,7 @@ class UsageDataService {
     } else {
       // Use local JSON data (dummyUsageData)
       List<UsageData> usageDataList =
-          dummyUsageData.map((item) => UsageData.fromJson(item)).toList();
+          dummyUsageData.reversed.map((item) => UsageData.fromJson(item)).toList();
       return usageDataList;
     }
   }

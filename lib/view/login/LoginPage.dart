@@ -1,4 +1,4 @@
-
+import 'package:electricity/services/authServices.dart';
 import 'package:electricity/services/general%20services/custom_route.dart';
 import 'package:electricity/services/general%20services/user.dart';
 import 'package:electricity/view/BottomBar/BottomBar.dart';
@@ -10,26 +10,54 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class LoginScreen extends StatelessWidget {
   static const routeName = '/auth';
 
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key}) : super(key: key);
 
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
 
-  Future<String?> _loginUser(LoginData data) {
-    return Future.delayed(loginTime).then((_) {
-      if (!mockUsers.containsKey(data.name)) {
-        return 'User not exists';
+  Future<String?> _loginUser(LoginData data) async {
+    try {
+      final userData = await _authService.loginUser(data.name, data.password);
+      if (userData != null) {
+        // Login successful, handle userData and navigate to next screen
+        // Navigator.of(context).pushReplacement(
+        //   FadePageRoute(
+        //     builder: (context) => BottomBar(),
+        //   ),
+        // );
+        return null;
+      } else {
+        return "Invalid Credentials";
       }
-      if (mockUsers[data.name] != data.password) {
-        return 'Password does not match';
-      }
-      return null;
-    });
+    } catch (e) {
+      return 'Error occurred during login';
+    }
   }
 
-  Future<String?> _signupUser(SignupData data) {
-    return Future.delayed(loginTime).then((_) {
-      return null;
-    });
+  final AuthService _authService = AuthService();
+
+  Future<String?> _signupUser(SignupData data) async {
+    try {
+      print(data.additionalSignupData!['FirstName']);
+
+      final userData = await _authService.registerUser(
+          data.name.toString(),
+          data.password.toString(),
+          data.additionalSignupData!['FirstName'].toString(),
+          data.additionalSignupData!['LastName'].toString());
+      if (userData != null) {
+        // Login successful, handle userData and navigate to next screen
+        // Navigator.of(context).pushReplacement(
+        //   FadePageRoute(
+        //     builder: (context) => BottomBar(),
+        //   ),
+        // );
+        return null;
+      } else {
+        return "Invalid Credentials";
+      }
+    } catch (e) {
+      return 'Error occurred during login';
+    }
   }
 
   Future<String?> _recoverPassword(String name) {
@@ -58,7 +86,7 @@ class LoginScreen extends StatelessWidget {
       onConfirmRecover: _signupConfirm,
       // onConfirmSignup: _signupConfirm,
       loginAfterSignUp: false,
-      userType: LoginUserType.firstName,
+      userType: LoginUserType.phone,
       termsOfService: [
         TermOfService(
           id: 'general-term',
@@ -67,66 +95,17 @@ class LoginScreen extends StatelessWidget {
           linkUrl: 'https://github.com/1developersanju/',
         ),
       ],
-      additionalSignupFields: [
-   
-        const UserFormField(
-          linkUrl: "https://github.com/1developersanju/",
-          keyName: 'Appliences used(eg: "Tv","Computer")',
-          icon: Icon(Icons.power),
-        ),
-
-        // const UserFormField(
-        //   keyName: 'Appliences used(eg: "Tv","Computer")',
-        //   icon: Icon(Icons.numbers_outlined),
-          
-        // ),
-
-        const UserFormField(
-          keyName: 'Head count (eg: "3")',
-          icon: Icon(Icons.numbers_outlined),
-        ),
-
-        // const UserFormField(keyName: 'Surname'),
+      additionalSignupFields: const [
         UserFormField(
-          keyName: 'phone_number',
-          displayName: 'Phone Number',
-          userType: LoginUserType.phone,
-          fieldValidator: (value) {
-            final phoneRegExp = RegExp(
-              '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}\$',
-            );
-            if (value != null &&
-                value.length < 7 &&
-                !phoneRegExp.hasMatch(value)) {
-              return "This isn't a valid phone number";
-            }
-            return null;
-          },
+          keyName: 'FirstName',
+          icon: Icon(Icons.person),
+        ),
+        UserFormField(
+          keyName: 'LastName',
+          icon: Icon(Icons.person),
         ),
       ],
-      // scrollable: true,
-      // hideProvidersTitle: false,
-      // loginAfterSignUp: false,
-      // hideForgotPasswordButton: true,
-      // hideSignUpButton: true,
-      // disableCustomPageTransformer: true,
-      // messages: LoginMessages(
-      //   userHint: 'User',
-      //   passwordHint: 'Pass',
-      //   confirmPasswordHint: 'Confirm',
-      //   loginButton: 'LOG IN',
-      //   signupButton: 'REGISTER',
-      //   forgotPasswordButton: 'Forgot huh?',
-      //   recoverPasswordButton: 'HELP ME',
-      //   goBackButton: 'GO BACK',
-      //   confirmPasswordError: 'Not match!',
-      //   recoverPasswordIntro: 'Don\'t feel bad. Happens all the time.',
-      //   recoverPasswordDescription: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-      //   recoverPasswordSuccess: 'Password rescued successfully',
-      //   flushbarTitleError: 'Oh no!',
-      //   flushbarTitleSuccess: 'Succes!',
-      //   providersTitle: 'login with'
-      // ),
+
       theme: LoginTheme(
         primaryColor: Colors.teal,
         errorColor: Colors.deepOrange,
@@ -137,71 +116,6 @@ class LoginScreen extends StatelessWidget {
           letterSpacing: 4,
         ),
       ),
-      //   // beforeHeroFontSize: 50,
-      //   // afterHeroFontSize: 20,
-      //   bodyStyle: TextStyle(
-      //     fontStyle: FontStyle.italic,
-      //     decoration: TextDecoration.underline,
-      //   ),
-      //   textFieldStyle: TextStyle(
-      //     color: Colors.orange,
-      //     shadows: [Shadow(color: Colors.yellow, blurRadius: 2)],
-      //   ),
-      //   buttonStyle: TextStyle(
-      //     fontWeight: FontWeight.w800,
-      //     color: Colors.yellow,
-      //   ),
-      //   cardTheme: CardTheme(
-      //     color: Colors.yellow.shade100,
-      //     elevation: 5,
-      //     margin: EdgeInsets.only(top: 15),
-      //     shape: ContinuousRectangleBorder(
-      //         borderRadius: BorderRadius.circular(100.0)),
-      //   ),
-      //   inputTheme: InputDecorationTheme(
-      //     filled: true,
-      //     fillColor: Colors.purple.withOpacity(.1),
-      //     contentPadding: EdgeInsets.zero,
-      //     errorStyle: TextStyle(
-      //       backgroundColor: Colors.orange,
-      //       color: Colors.white,
-      //     ),
-      //     labelStyle: TextStyle(fontSize: 12),
-      //     enabledBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.blue.shade700, width: 4),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     focusedBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.blue.shade400, width: 5),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     errorBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.red.shade700, width: 7),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     focusedErrorBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.red.shade400, width: 8),
-      //       borderRadius: inputBorder,
-      //     ),
-      //     disabledBorder: UnderlineInputBorder(
-      //       borderSide: BorderSide(color: Colors.grey, width: 5),
-      //       borderRadius: inputBorder,
-      //     ),
-      //   ),
-      //   buttonTheme: LoginButtonTheme(
-      //     splashColor: Colors.purple,
-      //     backgroundColor: Colors.pinkAccent,
-      //     highlightColor: Colors.lightGreen,
-      //     elevation: 9.0,
-      //     highlightElevation: 6.0,
-      //     shape: BeveledRectangleBorder(
-      //       borderRadius: BorderRadius.circular(10),
-      //     ),
-      //     // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      //     // shape: CircleBorder(side: BorderSide(color: Colors.green)),
-      //     // shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(55.0)),
-      //   ),
-      // ),
       userValidator: (value) {
         if (value!.contains(' ')) {
           return "username must not contain any spaces instead use '_'";

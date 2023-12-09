@@ -1,9 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:electricity/dummy/charts.dart';
+import 'package:electricity/widgets/charts.dart';
 import 'package:electricity/models/usageDataModel.dart';
 import 'package:electricity/services/UsageDataServices.dart';
 import 'package:electricity/services/general%20services/helpers.dart';
+import 'package:electricity/widgets/flip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/controllers/flip_card_controllers.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   final String userName;
@@ -16,16 +19,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<UsageData> usageDataList = [];
+  Map DashboardData = {
+    "image0": {"img": "assets/eco-house.png", "name": "Usage"},
+    "image1": {"img": "assets/water-tap.png", "name": "Usage"},
+    "image2": {"img": "assets/History.png", "name": "History"},
+    "image3": {"img": "assets/graph.png", "name": "Graph"},
+    "image4": {"img": "assets/rewards.png", "name": "Rewards"},
+    "image5": {"img": "assets/referral.png", "name": "Referrals"}
+  };
+
+  final con = GestureFlipCardController();
   int _current = 0;
   final CarouselController _controller = CarouselController();
-@override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
+
     // Use a post-frame callback to wait for the widget to build
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       // Jump to the last index after the widget builds
-      _controller.jumpToPage(usageDataList.length - 1);
+      // _controller.jumpToPage(usageDataList.length - 1);
     });
   }
 
@@ -33,7 +46,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     loadData();
-
   }
 
   Future<void> loadData() async {
@@ -46,94 +58,67 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: ColorConstants.white,
-     appBar: AppBar(backgroundColor: ColorConstants.white,title:                     Text(
-                      "Hi ${widget.userName}!",
-                      style: TextStyles.subHeading,
-                    ),
-centerTitle: false,),
+      appBar: AppBar(
+        backgroundColor: ColorConstants.white,
+        title: Text(
+          "Hi ${widget.userName}!",
+          style: TextStyles.subHeading,
+        ),
+        centerTitle: false,
+      ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16,),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Column(
+                const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                                          Text(
-                                      "Check your usage compared to previous bills",
-                
+                    Text(
+                      "Check your usage compared to previous bills",
                       style: TextStyles.normalText,
                     ),
-                
                   ],
                 ),
                 Spacer(),
-                IconButton(onPressed: (){}, icon: Icon(Icons.notifications))
+                IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
               ],
             ),
             CarouselSlider(
-              
-  items: usageDataList.map((usageData) {
-    return Builder(
-      builder: (BuildContext context) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-            color: Colors.grey[200],
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 15.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  'Month: ${usageData.dateOfBillIssued}',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.teal,
-                  ),
-                ),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: _buildElectricityData(usageData),
-                    ),
-                    Expanded(
-                      child: _buildWaterData(usageData),
-                    ),
-                  ],
-                ),
-              ],
+              items: usageDataList.map((usageData) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return flipCard(
+                      cong: con,
+                      usageData: usageData,
+                    );
+                  },
+                );
+              }).toList(),
+              carouselController: _controller,
+              options: CarouselOptions(
+                initialPage: _current,
+                autoPlay: false,
+                reverse: true,
+                animateToClosest: true,
+                enableInfiniteScroll: false,
+                enlargeCenterPage: true,
+                aspectRatio: 16 / 9,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
+              ),
             ),
-          ),
-        );
-      },
-    );
-  }).toList(),
-  carouselController: _controller,
-  options: CarouselOptions(
-    initialPage: _current,
-    autoPlay: false,
-    enableInfiniteScroll: false,
-    enlargeCenterPage: true,
-    aspectRatio: 1.7,
-    onPageChanged: (index, reason) {
-      setState(() {
-        _current = index;
-      });
-    },
-  ),
-),
-
             SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -155,10 +140,50 @@ centerTitle: false,),
               }).toList(),
             ),
             SizedBox(height: 16),
-            Chart(
-              electricityData: ElectricityData,
-              waterData: WaterData,
-            ),
+            Card(
+                child: Container(
+                    height: size.height * 0.3,
+                    color: Colors.white38,
+                    child: GridView.count(
+                      crossAxisCount: 3,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(
+                        6,
+                        (index) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Charts()));
+                              },
+                              child: Container(
+                                color: ColorConstants.teal,
+                                margin: const EdgeInsets.all(10),
+                                child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
+                                  Image.asset(
+                                    DashboardData["image${index}"]["img"]
+                                        .toString(),
+                                    height: 60,
+                                  ),
+                                  Text(
+                                    DashboardData["image${index}"]["name"].toString(),
+                                    style: TextStyles.normalTextWhite,
+                                  )
+                                ]),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ))
+                // Chart(
+                //   electricityData: ElectricityData,
+                //   waterData: WaterData,
+                // ),
+                )
           ],
         ),
       ),
@@ -172,9 +197,8 @@ centerTitle: false,),
       children: [
         Text('Electricity Usage'),
         SizedBox(height: 8),
-        Text('Date: ${usageData.dateOfBillIssued}'),
-        Text('Consumer: ${usageData.electricityConsumerNumber}'),
-        Text('Amount Paid: \$${usageData.electricityAmountPaid}'),
+        Text('CN no: ${usageData.electricityConsumerNumber}'),
+        Text('\$${usageData.electricityAmountPaid}'),
         Text('Kilowatt Used: ${usageData.electricityKilowattUsed} kWh'),
       ],
     );

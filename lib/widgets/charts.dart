@@ -51,6 +51,7 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(right: 3.0),
@@ -136,6 +137,7 @@ class Chart extends StatelessWidget {
             ),
           ],
         ),
+        ElevatedButton(onPressed: (){}, child: const Text("View usage"))
       ],
     );
   }

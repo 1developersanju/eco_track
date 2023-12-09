@@ -1,3 +1,5 @@
+import 'package:electricity/dummy/tests.dart';
+import 'package:electricity/widgets/flip.dart';
 import 'package:electricity/view/BottomBar/BottomBar.dart';
 import 'package:electricity/view/login/LoginPage.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +15,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Eco Track',
+        
         theme: ThemeData(
+          useMaterial3: true,
           primarySwatch: Colors.teal,
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),
-        home: BottomBar()
+        home: 
+        // YourWidget(),
+ BottomBar()
 
-        //  LoginScreen(),
+//  LoginScreen(),
         );
   }
 }
