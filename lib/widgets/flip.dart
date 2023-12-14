@@ -38,92 +38,102 @@ class flipCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              usageData.waterConsumerNumber.toString(),
-                              style: TextStyles.subHeading,
-                            ),
-                          ),
-                          Spacer(),
-                          const Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "TNEB",
-                              style: TextStyles.subHeadingItalic,
-                            ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              const TextSpan(
-                                  text: "Date ", style: TextStyles.subHeading),
-                              TextSpan(
-                                text: usageData.dateOfBillIssued,
-                                style: TextStyles.normalText,
-                              ),
-                            ],
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                      ),
-                      Spacer(),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  const TextSpan(
-                                      text: "Bill Amount ",
-                                      style: TextStyles.normalText),
-                                  TextSpan(
-                                    text:
-                                        "₹ ${usageData.electricityAmountPaid.toString()}",
+                  usageData.electricityConsumerNumber == 0 ||
+                          usageData.electricityConsumerNumber == null
+                      ? Center(
+                          child: TextFormField(
+                              decoration:const InputDecoration(
+                                  hintText: "Enter Consumer Number",),keyboardType: TextInputType.number,),
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    usageData.waterConsumerNumber.toString(),
                                     style: TextStyles.subHeading,
                                   ),
-                                ],
-                              ),
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text.rich(
-                              overflow: TextOverflow.ellipsis,
-                              TextSpan(
-                                children: [
-                                  const TextSpan(
-                                      text: "Status ",
-                                      style: TextStyles.normalText),
-                                  TextSpan(
-                                    text: usageData.electricityStatus == true
-                                        ? "PAID"
-                                        : "PENDING",
-                                    style: usageData.electricityStatus == true
-                                        ? TextStyles.subHeadingPaid
-                                        : TextStyles.subHeadingUnPaid,
+                                ),
+                                Spacer(),
+                                const Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "TNEB",
+                                    style: TextStyles.subHeadingItalic,
                                   ),
-                                ],
-                              ),
-                              textAlign: TextAlign.justify,
+                                )
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    const TextSpan(
+                                        text: "Date ",
+                                        style: TextStyles.subHeading),
+                                    TextSpan(
+                                      text: usageData.dateOfBillIssued,
+                                      style: TextStyles.normalText,
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                            Spacer(),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                            text: "Bill Amount ",
+                                            style: TextStyles.normalText),
+                                        TextSpan(
+                                          text:
+                                              "₹ ${usageData.electricityAmountPaid.toString()}",
+                                          style: TextStyles.subHeading,
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text.rich(
+                                    overflow: TextOverflow.ellipsis,
+                                    TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                            text: "Status ",
+                                            style: TextStyles.normalText),
+                                        TextSpan(
+                                          text: usageData.electricityStatus ==
+                                                  true
+                                              ? "PAID"
+                                              : "PENDING",
+                                          style: usageData.electricityStatus ==
+                                                  true
+                                              ? TextStyles.subHeadingPaid
+                                              : TextStyles.subHeadingUnPaid,
+                                        ),
+                                      ],
+                                    ),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                 ],
               ),
             ),
@@ -146,97 +156,104 @@ class flipCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              usageData.waterConsumerNumber.toString(),
-                              style: TextStyles.subHeading,
-                            ),
+               usageData.electricityConsumerNumber == 0 ||
+                          usageData.electricityConsumerNumber == null
+                      ? Center(
+                          child: TextFormField(
+                              decoration:const InputDecoration(
+                                  hintText: "Enter Consumer Number",),keyboardType: TextInputType.number,),
+                        ): Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            usageData.waterConsumerNumber.toString(),
+                            style: TextStyles.subHeading,
                           ),
-                          Spacer(),
-                          const Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "CCMC",
-                              style: TextStyles.subHeadingItalic,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  const TextSpan(
-                                      text: "Date ", style: TextStyles.subHeading),
-                                  TextSpan(
-                                    text: usageData.dateOfBillIssued,
-                                    style: TextStyles.normalText,
-                                  ),
-                                ],
-                              ),
-                              textAlign: TextAlign.justify,
-                            ),
+                        ),
+                        Spacer(),
+                        const Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "CCMC",
+                            style: TextStyles.subHeadingItalic,
                           ),
-                        ],
-                      ),
-                      Spacer(),
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text.rich(
-                              TextSpan(
-                                children: [
-                                  const TextSpan(
-                                      text: "Bill Amount ",
-                                      style: TextStyles.normalTextWhite),
-                                  TextSpan(
-                                    text:
-                                        "₹ ${usageData.waterAmountPaid.toString()}",
-                                    style: TextStyles.subHeadingWhite,
-                                  ),
-                                ],
-                              ),
-                              textAlign: TextAlign.justify,
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                    text: "Date ",
+                                    style: TextStyles.subHeading),
+                                TextSpan(
+                                  text: usageData.dateOfBillIssued,
+                                  style: TextStyles.normalText,
+                                ),
+                              ],
                             ),
+                            textAlign: TextAlign.justify,
                           ),
-                          Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text.rich(
-                              overflow: TextOverflow.ellipsis,
-                              TextSpan(
-                                children: [
-                                  const TextSpan(
-                                      text: "Status ",
-                                      style: TextStyles.normalTextWhite),
-                                  TextSpan(
-                                    text: usageData.waterStatus == true
-                                        ? "PAID"
-                                        : "PENDING",
-                                    style: usageData.waterStatus == true
-                                        ? TextStyles.subHeadingPaid
-                                        : TextStyles.subHeadingUnPaid,
-                                  ),
-                                ],
-                              ),
-                              textAlign: TextAlign.justify,
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                    text: "Bill Amount ",
+                                    style: TextStyles.normalTextWhite),
+                                TextSpan(
+                                  text:
+                                      "₹ ${usageData.waterAmountPaid.toString()}",
+                                  style: TextStyles.subHeadingWhite,
+                                ),
+                              ],
                             ),
+                            textAlign: TextAlign.justify,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        Spacer(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text.rich(
+                            overflow: TextOverflow.ellipsis,
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                    text: "Status ",
+                                    style: TextStyles.normalTextWhite),
+                                TextSpan(
+                                  text: usageData.waterStatus == true
+                                      ? "PAID"
+                                      : "PENDING",
+                                  style: usageData.waterStatus == true
+                                      ? TextStyles.subHeadingPaid
+                                      : TextStyles.subHeadingUnPaid,
+                                ),
+                              ],
+                            ),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

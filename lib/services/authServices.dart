@@ -19,9 +19,17 @@ class AuthService {
       Map<String, dynamic> data = json.decode(response.body);
 
       print(response);
-      if (response.statusCode == 200) {
-        return data;
-      } else {
+if (response.statusCode == 200) {
+  bool success = json.decode(response.body)["success"];
+  await SharedPref().setBoolFromSharedPreferences(success);
+  print(response.body);
+
+  // Retrieve the value from SharedPreferences and use it within an async function
+  bool? isLogged = await SharedPref().getBoolFromSharedPreferences();
+  print("Is logged: $isLogged");
+
+  return data;
+} else {
         return null;
       }
     } catch (e) {
@@ -42,8 +50,6 @@ class AuthService {
           "password": password,
           "firstname": firstName,
           "lastname": lastName,
-          "water_consumer_no": " ",
-          "electricity_consumer_no": " " 
         }),
       );
       Map<String, dynamic> data = json.decode(response.body);

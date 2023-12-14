@@ -21,8 +21,7 @@ List dummyUsageData = [
     "waterAmountPaid": 60.0,
     "waterLitersUsed": 220.0,
     "waterStatus": true,
-        "electricityStatus": true
-
+    "electricityStatus": true
   },
   {
     "dateOfBillIssued": "2023-03-01",
@@ -33,7 +32,7 @@ List dummyUsageData = [
     "waterAmountPaid": 70.0,
     "waterLitersUsed": 180.0,
     "waterStatus": true,
-        "electricityStatus": true
+    "electricityStatus": true
   },
   {
     "dateOfBillIssued": "2023-04-01",
@@ -44,7 +43,7 @@ List dummyUsageData = [
     "waterAmountPaid": 55.0,
     "waterLitersUsed": 210.0,
     "waterStatus": true,
-        "electricityStatus": true
+    "electricityStatus": true
   },
   {
     "dateOfBillIssued": "2023-05-01",
@@ -55,6 +54,6 @@ List dummyUsageData = [
     "waterAmountPaid": 65.0,
     "waterLitersUsed": 190.0,
     "waterStatus": false,
-        "electricityStatus": true
+    "electricityStatus": true
   }
 ];

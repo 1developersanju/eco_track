@@ -1,4 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:electricity/view/Reward/rewards_page.dart';
+import 'package:electricity/view/leaderBoard/leader_board.dart';
+import 'package:electricity/view/login/LoginPage.dart';
+import 'package:electricity/view/profile/Profile_Page.dart';
+import 'package:electricity/view/usagePages/electricityUsage.dart';
+import 'package:electricity/view/usagePages/history.dart';
+import 'package:electricity/view/usagePages/water_usage.dart';
 import 'package:electricity/widgets/charts.dart';
 import 'package:electricity/models/usageDataModel.dart';
 import 'package:electricity/services/UsageDataServices.dart';
@@ -20,13 +27,52 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<UsageData> usageDataList = [];
   Map DashboardData = {
-    "image0": {"img": "assets/eco-house.png", "name": "Usage"},
-    "image1": {"img": "assets/water-tap.png", "name": "Usage"},
-    "image2": {"img": "assets/History.png", "name": "History"},
-    "image3": {"img": "assets/graph.png", "name": "Graph"},
-    "image4": {"img": "assets/rewards.png", "name": "Rewards"},
+    "image0": {"img": "assets/eco-house.png", "name": "Electricity"},
+    "image1": {"img": "assets/water-tap.png", "name": "Water"},
+    "image2": {"img": "assets/graph.png", "name": "Graph"},
+    "image3": {"img": "assets/gift-box.png", "name": "Rewards"},
+    "image4": {"img": "assets/rewards.png", "name": "Leaderboard"},
     "image5": {"img": "assets/referral.png", "name": "Referrals"}
   };
+
+  void _navigateToPage(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => TableView()));
+        break;
+      case 1:
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WaterConsumptionTableView()));
+        break;
+      case 2:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Charts()));
+        break;
+
+      case 3:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => RewardsView()));
+        break;
+      case 4:
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LeaderBoard()));
+        break;
+      case 5:
+        print("No Navigation");
+
+      //   Navigator.push(
+      //       context, MaterialPageRoute(builder: (context) => Charts()));
+      //   break;
+      // Add more cases as needed
+      default:
+        print("null");
+        // Handle other cases or do nothing
+        break;
+    }
+  }
 
   final con = GestureFlipCardController();
   int _current = 0;
@@ -70,77 +116,78 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: false,
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 16,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Check your usage compared to previous bills",
-                      style: TextStyles.normalText,
-                    ),
-                  ],
-                ),
-                Spacer(),
-                IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
-              ],
-            ),
-            CarouselSlider(
-              items: usageDataList.map((usageData) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return flipCard(
-                      cong: con,
-                      usageData: usageData,
-                    );
-                  },
-                );
-              }).toList(),
-              carouselController: _controller,
-              options: CarouselOptions(
-                initialPage: _current,
-                autoPlay: false,
-                reverse: true,
-                animateToClosest: true,
-                enableInfiniteScroll: false,
-                enlargeCenterPage: true,
-                aspectRatio: 16 / 9,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = index;
-                  });
-                },
-              ),
-            ),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: usageDataList.asMap().entries.map((entry) {
-                return GestureDetector(
-                  child: Container(
-                    width: 8.0,
-                    height: 8.0,
-                    margin:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: _current == entry.key
-                          ? Colors.teal
-                          : Colors.teal.withOpacity(0.4),
-                    ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Text(
+                      //   "Check your usage compared to previous bills",
+                      //   style: TextStyles.normalText,
+                      // ),
+                    ],
                   ),
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 16),
-            Card(
+                  // Spacer(),
+                  // IconButton(onPressed: () {}, icon: Icon(Icons.notifications))
+                ],
+              ),
+              CarouselSlider(
+                items: usageDataList.map((usageData) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return flipCard(
+                        cong: con,
+                        usageData: usageData,
+                      );
+                    },
+                  );
+                }).toList(),
+                carouselController: _controller,
+                options: CarouselOptions(
+                  initialPage: _current,
+                  autoPlay: false,
+                  reverse: true,
+                  animateToClosest: true,
+                  enableInfiniteScroll: false,
+                  enlargeCenterPage: true,
+                  aspectRatio: 16 / 9,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: usageDataList.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    child: Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _current == entry.key
+                            ? Colors.teal
+                            : Colors.teal.withOpacity(0.4),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 16),
+              Card(
                 child: Container(
                     height: size.height * 0.3,
                     color: Colors.white38,
@@ -154,37 +201,40 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.all(Radius.circular(40)),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Charts()));
+                                _navigateToPage(context, index);
                               },
                               child: Container(
                                 color: ColorConstants.teal,
                                 margin: const EdgeInsets.all(10),
-                                child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [
-                                  Image.asset(
-                                    DashboardData["image${index}"]["img"]
-                                        .toString(),
-                                    height: 60,
-                                  ),
-                                  Text(
-                                    DashboardData["image${index}"]["name"].toString(),
-                                    style: TextStyles.normalTextWhite,
-                                  )
-                                ]),
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Hero(
+                                        tag: "reward",
+                                        child: Image.asset(
+                                          DashboardData["image${index}"]["img"]
+                                              .toString(),
+                                          height: 60,
+                                        ),
+                                      ),
+                                      Text(
+                                        DashboardData["image${index}"]["name"]
+                                            .toString(),
+                                        style: TextStyles.normalTextWhite,
+                                      )
+                                    ]),
                               ),
                             ),
                           );
                         },
                       ),
-                    ))
-                // Chart(
-                //   electricityData: ElectricityData,
-                //   waterData: WaterData,
-                // ),
-                )
-          ],
+                    )),
+              ),
+              SizedBox(
+                height: 100,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -195,8 +245,8 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Electricity Usage'),
-        SizedBox(height: 8),
+        const Text('Electricity Usage'),
+        const SizedBox(height: 8),
         Text('CN no: ${usageData.electricityConsumerNumber}'),
         Text('\$${usageData.electricityAmountPaid}'),
         Text('Kilowatt Used: ${usageData.electricityKilowattUsed} kWh'),

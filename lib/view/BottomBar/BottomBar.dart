@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:electricity/view/Home/home.dart';
-import 'package:electricity/view/profile/profilePage.dart';
+import 'package:electricity/view/customer_support/Customer_Support.dart';
+import 'package:electricity/view/profile/Profile_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomBar extends StatefulWidget {
@@ -33,12 +36,14 @@ class _BottomBarState extends State<BottomBar> {
   final List<Widget> bottomBarPages = [
     ProfilePage(),
     HomePage(userName: "Sanjeev"),
-    const Page3(),
+     CustomerSupportPage(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
+
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -46,22 +51,26 @@ class _BottomBarState extends State<BottomBar> {
             bottomBarPages.length, (index) => bottomBarPages[index]),
       ),
       extendBody: true,
+    
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
+            
             showBlurBottomBar: false,
             showShadow: true,
               /// Provide NotchBottomBarController
               notchBottomBarController: _controller,
               color: Colors.white,
-              showLabel: false,
+              showLabel: true,
               notchColor: Colors.black87,
 
               /// restart app if you change removeMargins
               removeMargins: false,
-              bottomBarWidth: 500,
+              bottomBarWidth: 100,
+              
               durationInMilliSeconds: 300,
               bottomBarItems: const [
                 BottomBarItem(
+              
                   inActiveItem: Icon(
                     Icons.person,
                     color: Colors.blueGrey,
@@ -110,11 +119,3 @@ class _BottomBarState extends State<BottomBar> {
 }
 
 
-class Page3 extends StatelessWidget {
-  const Page3({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(child: const Center(child: Text('Page 3')));
-  }
-}

@@ -1,8 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class SharedPref {
+  // Method to set a boolean value in SharedPreferences
+  Future<void> setBoolFromSharedPreferences(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLogged', value);
+  }
+
+  // Method to get a boolean value from SharedPreferences
+  Future<bool?> getBoolFromSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isLogged');
+  }
+
+  Future<void> setProfileImage(String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("setted");
+    await prefs.setString('setProfile', value);
+  }
+
+  // Method to get a boolean value from SharedPreferences
+  Future<String?> getProfileImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("test1 ${prefs.getString('setProfile')}");
+    return prefs.getString('setProfile');
+  }
+}
 
 class DataConstants {
   static String baseUrl =
-      'https://eco-track-backend-f9xs.onrender.com'; // Replace with your base URL
+      'https://eco-track.onrender.com'; // Replace with your base URL
 }
 
 class TextStyles {
